@@ -68,16 +68,18 @@ public class FinFac {
     String Nombre_Empleado;
     String Apellido_Empleado;
     String No_Mesa;
+    String Value;
     int Total;
     
     //Codigo de Soporte Para Generar Factura Cancelada
     public void PagarOrden()
     {
+        Value = Facts.CodPedido.getText();
         try 
         {
             conn =conex.getConection();
             ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call PagarFactura(?,?)}");
-            ps.setString(1, Facts.CodPedido.getText());
+            ps.setString(1, Value);
             ps.setString(2, Estado);
             ps.execute();
             r=ps.executeQuery();
@@ -91,11 +93,11 @@ public class FinFac {
         {
             conn =conex.getConection();
             ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarFactura(?)}");
-            ps.setString(1, Facts.CodPedido.getText());
+            ps.setString(1, Value);
             r=ps.executeQuery();
             if (r.next())
             {
-                Id_Cliente = (r.getString("Id_Cliente"));
+                Id_Cliente = (r.getString("NIT"));
                 Nombre_Cliente= (r.getString("Nombre_Cliente"));
                 Apellido_Cliente= (r.getString("Apellido_Cliente"));
                 Codigo_Pedido= (r.getString("Codigo_Pedido"));
@@ -124,11 +126,9 @@ public class FinFac {
         {
             conn =conex.getConection();
             ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarFactura(?)}");
-            ps.setString(1, Facts.CodPedido.getText());
-            String Factura=Facts.CodPedido.getText();
+            ps.setString(1, Value);
+            String Factura=Value;
             r=ps.executeQuery();
-            if (r.next())
-            {
             OutputStream file = new FileOutputStream(new File("C://Docs//"+Factura+".pdf"));
             Document document = new Document();
             PdfWriter.getInstance(document, file);
@@ -172,7 +172,7 @@ public class FinFac {
                 JOptionPane.showMessageDialog(null, "Se Ha pagado La Orden y generado la Factura \n No: "+Facts.CodPedido.getText()+"\nGuardada en C://Docs//"+CodPedido.getText()+".pdf");
                 Facts fac = new Facts();
                 fac.setVisible(false);
-            }
+            
             }
             catch (SQLException e)
             {
@@ -260,7 +260,7 @@ public class FinFac {
                 document.add(tabla);              
                 document.close();
                 file.close();  
-                JOptionPane.showMessageDialog(null, "Se Ha pagado La Orden y generado la Factura de la mesa \n No: "+CodMesa.getText()+"\nGuardada en C://Docs//Mesa No."+CodMesa.getText()+".pdf");
+                JOptionPane.showMessageDialog(null, "Se Ha generado la Factura de la mesa \n No: "+CodMesa.getText()+"\nGuardada en C://Docs//Mesa No."+CodMesa.getText()+".pdf");
             }
             else
             {

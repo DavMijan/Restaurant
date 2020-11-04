@@ -65,11 +65,11 @@ public class Consultas {
             r=ps.executeQuery();
             DefaultTableModel modelo = new DefaultTableModel();
             Consultas.setModel(modelo);
-            modelo.addColumn("Id Cliente");
+            modelo.addColumn("NIT");
             modelo.addColumn("Nombre");
             modelo.addColumn("Apellido");
             modelo.addColumn("Correo");
-            modelo.addColumn("NIT");
+            modelo.addColumn("Telefono");
             while (r.next())
             {
                 Object [] fila = new Object[5];

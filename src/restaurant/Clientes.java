@@ -67,11 +67,11 @@ public class Clientes {
             r=ps.executeQuery();
             if (r.next())
             {
-                Principal.ID_Cliente.setText(r.getString("Id_Cliente"));
+                Principal.ID_Cliente.setText(r.getString("NIT"));
                 Principal.Nombre_Cliente.setText(r.getString("Nombre_Cliente"));
                 Principal.Apellido_Cliente.setText(r.getString("Apellido_Cliente"));
                 Principal.Correo_Cliente.setText(r.getString("Correo"));
-                Principal.NIT_Cliente.setText(r.getString("NIT"));
+                Principal.NIT_Cliente.setText(r.getString("Telefono"));
                 JOptionPane.showMessageDialog(null, "Se ha Encontrado el Cliente");
             }
             else

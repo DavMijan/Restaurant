@@ -31,8 +31,10 @@ public class Facturas {
     CallableStatement ps;
     ArrayList Productos = new ArrayList();
     ArrayList CodProductos = new ArrayList();
+    ArrayList Precios = new ArrayList();
     DefaultListModel modelo = new DefaultListModel();
     DefaultListModel modelo2 = new DefaultListModel();
+    DefaultListModel modelo3 = new DefaultListModel();
     String Produc;
     String Estado = "Pedido";
     String Nombre_Cli;
@@ -41,8 +43,8 @@ public class Facturas {
     String Apellido_Emp;
     String CodProdFinal;
     String ProdFinal;
-    String Precio;
-    
+    String Precio;   
+    int Total;
     
     
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,22 +55,28 @@ public class Facturas {
             conn =conex.getConection();
             GenerarBoletas.jList1.setModel(modelo);
             GenerarBoletas.jList2.setModel(modelo2);          
-            ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarProducto(?)}");
+            GenerarBoletas.jList3.setModel(modelo3);          
+            ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarProductos(?)}");
             ps.setString(1, GenerarBoletas.Id_Producto_Or.getText());
             r=ps.executeQuery();
             if (r.next())
             {
                 CodProductos.add(GenerarBoletas.Id_Producto_Or.getText());
                 GenerarBoletas.Prod.setText(r.getString("Producto"));
+                Total=Total+Integer.parseInt(r.getString("Precio"));
                 Produc = GenerarBoletas.Prod.getText();  
+                Precios.add(r.getString("Precio"));
                 Productos.add(Produc);
                 modelo.removeAllElements();
                 modelo2.removeAllElements();
+                modelo3.removeAllElements();
                 modelo.addAll(CodProductos);
                 modelo2.addAll(Productos);
+                modelo3.addAll(Precios);
                 JOptionPane.showMessageDialog(null, "Se ha Agregado el Producto");
                 GenerarBoletas.Id_Producto_Or.setText("");
                 GenerarBoletas.Prod.setText("");
+                GenerarBoletas.TotalOrden.setText(String.valueOf(Total));
             }
             else
             {
@@ -91,7 +99,7 @@ public class Facturas {
         try 
         {
             conn =conex.getConection();
-            ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarClientes(?)}");
+            ps= (com.mysql.cj.jdbc.CallableStatement) conn.prepareCall("{Call BuscarCliente(?)}");
             ps.setString(1, GenerarBoletas.Id_Cliente_Or.getText());
             r=ps.executeQuery();
             if (r.next())
@@ -199,8 +207,6 @@ public class Facturas {
                 Logger.getLogger(Restaurant.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, ex);
             }
-            System.out.println(ProdFinal);
-            System.out.println(Precio);
         
             try 
             {

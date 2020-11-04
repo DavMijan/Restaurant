@@ -186,7 +186,7 @@ Facturas fac = new Facturas();
 
         jTabbedPane2.addTab("Empleados", jPanel3);
 
-        jLabel5.setText("ID:");
+        jLabel5.setText("NIT:");
 
         jLabel6.setText("Nombre:");
 
@@ -194,7 +194,7 @@ Facturas fac = new Facturas();
 
         jLabel8.setText("Correo:");
 
-        jLabel9.setText("NIT:");
+        jLabel9.setText("Telefono:");
 
         jButton3.setText("Buscar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
